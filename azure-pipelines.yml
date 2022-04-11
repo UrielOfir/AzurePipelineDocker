@@ -21,7 +21,7 @@ stages:
     # - script: docker rmi "docker pipeline"
     #   displayName: "remove previous docker images"
     
-    - script: |
+    - powershell: |
         Write-Host @"
         # Host configuration
         PORT=8080

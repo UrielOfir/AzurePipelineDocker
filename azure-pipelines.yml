@@ -40,11 +40,11 @@ stages:
       displayName: add .env file
 
     - task: Docker@2
-    displayName: Build an image
-    inputs:
-      repository: "docker pipeline"
-      command: build
-      Dockerfile: Dockerfile
+      displayName: Build an image
+      inputs:
+        repository: "docker pipeline"
+        command: build
+        Dockerfile: Dockerfile
 
 # # Continuous Deployment Process for Staging Environment
 # - stage: DeployToStaging

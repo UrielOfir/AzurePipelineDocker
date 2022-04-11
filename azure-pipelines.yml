@@ -22,7 +22,7 @@ stages:
         echo "
         # Host configuration
         PORT=8080
-        HOST=${{host}}
+        HOST=0.0.0.0
         # Postgres configuration
         PGHOST=${{pghost}}
         PGUSERNAME=${{pg_username}}

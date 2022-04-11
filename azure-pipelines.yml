@@ -1,79 +1,53 @@
+name: Docker pipelin
+
 trigger:
 - master
+- feature/*
 
-variables:
-- group: ansible
+pool: default
 
 stages:
+
+# Continuous Integration Process
 - stage: CI
-  pool: Default
   jobs:
-  - job: publish_artifact
+  - job: BuildAndPushDocker
+    workspace: 
+      clean: all
     steps:
-
-    - script: npm install
-      displayName: install npm packages
-    
-    - task: ArchiveFiles@2
+    - task: Docker@2
+      displayName: Build an image
       inputs:
-        rootFolderOrFile: '$(System.DefaultWorkingDirectory)'
-        includeRootFolder: true
-        archiveType: 'zip'
-        archiveFile: '$(Build.ArtifactStagingDirectory)/zippedApp.zip'
-        replaceExistingArchive: true
-    
-    - task: PublishPipelineArtifact@1
-      inputs:
-        targetPath: '$(Build.ArtifactStagingDirectory)/zippedApp.zip'
-        artifactType: 'pipeline'
-        artifactName: 'zipped'
+        repository: "docker pipeline"
+        command: build
+        Dockerfile: Dockerfile
 
-- stage: CD_staging
+# Continuous Deployment Process for Staging Environment
+- stage: DeployToStaging
+  condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/master'))
   jobs:
   - deployment: staging
-    displayName: staging
-    environment: 'staging.stg-ansibleVM'
+    displayName: Deploy to Staging
+    environment:
+      name: <<YOUR ENVIRONMENT NAME>>
+      resourceType: VirtualMachine
     strategy:
       runOnce:
         deploy:
           steps:
-          - template: tools/ansible.yml
-            parameters:
-              pghost: $(stg_pghost)
-              pg_username: $(pg_username)
-              pg_password: $(pg_password)
-              LB_ip: $(stg_LB_ip)
-              okta_url: $(okta_url)
-              okta_client_id: $(okta_client_id)
-              okta_client_secret: $(okta_client_secret)
-              servers_username: $(servers_username) 
-              servers_ssh_pass: $(servers_ssh_pass)
-              hosts:
-              - 10.0.1.4
-              - 10.0.1.5
-
-
-- stage: CD_production
+          - <<YOUR TASKS>>
+          
+# Continuous Delivery Process for Production Environment
+- stage: DeployToProduction
+  condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/master'))
   jobs:
-  - deployment: DeployWeb
-    displayName: deploy Web App
-    environment: 'deployment.prd-ansibleVM'
+  - deployment: production
+    displayName: Deploy to Production
+    environment:
+      name: <<YOUR ENVIRONMENT NAME>>
+      resourceType: VirtualMachine
     strategy:
       runOnce:
         deploy:
           steps:
-          - template: tools/ansible.yml
-            parameters:
-              pghost: $(prd_pghost)
-              pg_username: $(pg_username)
-              pg_password: $(pg_password)
-              LB_ip: $(prd_LB_ip)
-              okta_url: $(okta_url)
-              okta_client_id: $(okta_client_id)
-              okta_client_secret: $(okta_client_secret)
-              servers_username: $(servers_username) 
-              servers_ssh_pass: $(servers_ssh_pass)
-              hosts:
-              - 10.0.1.4
-              - 10.0.1.5
-              - 10.0.1.6
+          - <<YOUR TASKS>>

@@ -24,7 +24,7 @@ stages:
         PORT=8080
         HOST=0.0.0.0
         # Postgres configuration
-        PGHOST=${{pghost}}
+        PGHOST=${{stg_pghost}}
         PGUSERNAME=${{pg_username}}
         PGDATABASE=postgres
         PGPASSWORD=${{pg_password}}

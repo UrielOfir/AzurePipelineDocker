@@ -6,6 +6,9 @@ trigger:
 
 pool: default
 
+variables: 
+- group: "env file"
+
 stages:
 
 # Continuous Integration Process

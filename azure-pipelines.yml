@@ -18,8 +18,8 @@ stages:
     workspace: 
       clean: all
     steps:
-    - script: docker rmi "docker pipeline"
-      displayName: "remove previous docker images"
+    # - script: docker rmi "docker pipeline"
+    #   displayName: "remove previous docker images"
     
     - script: |
         echo "

@@ -15,36 +15,36 @@ stages:
     workspace: 
       clean: all
     steps:
-  - script: docker rmi "docker pipeline"
-    displayName: "remove previous docker images"
-  
-  - script: |
-      echo "
-      # Host configuration
-      PORT=8080
-      HOST=${{host}}
-      # Postgres configuration
-      PGHOST=${{pghost}}
-      PGUSERNAME=${{pg_username}}
-      PGDATABASE=postgres
-      PGPASSWORD=${{pg_password}}
-      PGPORT=5432
-      HOST_URL=http://${{stg_LB_ip}}:8080
-      COOKIE_ENCRYPT_PWD=superAwesomePasswordStringThatIsAtLeast32CharactersLong!
-      NODE_ENV=development
-      # Okta configuration
-      OKTA_ORG_URL=${{okta_url}}
-      OKTA_CLIENT_ID=${{okta_client_id}}
-      OKTA_CLIENT_SECRET=${{okta_client_secret}}
-      " > .env;
-    displayName: add .env file
+    - script: docker rmi "docker pipeline"
+      displayName: "remove previous docker images"
+    
+    - script: |
+        echo "
+        # Host configuration
+        PORT=8080
+        HOST=${{host}}
+        # Postgres configuration
+        PGHOST=${{pghost}}
+        PGUSERNAME=${{pg_username}}
+        PGDATABASE=postgres
+        PGPASSWORD=${{pg_password}}
+        PGPORT=5432
+        HOST_URL=http://${{stg_LB_ip}}:8080
+        COOKIE_ENCRYPT_PWD=superAwesomePasswordStringThatIsAtLeast32CharactersLong!
+        NODE_ENV=development
+        # Okta configuration
+        OKTA_ORG_URL=${{okta_url}}
+        OKTA_CLIENT_ID=${{okta_client_id}}
+        OKTA_CLIENT_SECRET=${{okta_client_secret}}
+        " > .env;
+      displayName: add .env file
 
     - task: Docker@2
-      displayName: Build an image
-      inputs:
-        repository: "docker pipeline"
-        command: build
-        Dockerfile: Dockerfile
+    displayName: Build an image
+    inputs:
+      repository: "docker pipeline"
+      command: build
+      Dockerfile: Dockerfile
 
 # # Continuous Deployment Process for Staging Environment
 # - stage: DeployToStaging

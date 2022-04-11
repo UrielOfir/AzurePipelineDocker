@@ -22,7 +22,7 @@ stages:
     #   displayName: "remove previous docker images"
     
     - powershell: |
-        Write-Host @"
+        Set-Content -Path .\.env  -value @"
         # Host configuration
         PORT=8080
         HOST=0.0.0.0
@@ -39,7 +39,7 @@ stages:
         OKTA_ORG_URL=$(okta_url)
         OKTA_CLIENT_ID=$(okta_client_id)
         OKTA_CLIENT_SECRET=$(okta_client_secret)
-        "@ | Out-File -FilePath .\.env
+        "@
       displayName: add .env file
 
     - task: Docker@2

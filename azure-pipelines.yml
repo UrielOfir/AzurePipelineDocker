@@ -24,27 +24,6 @@ stages:
          docker rmi $(docker images urielofir/weight-tracker -q)
         }
       displayName: remove previous docker images
-    
-    - powershell: |
-        Set-Content -Path .\.env  -value @"
-        # Host configuration
-        PORT=8080
-        HOST=0.0.0.0
-        # Postgres configuration
-        PGHOST=$(stg_pghost)
-        PGUSERNAME=$(pg_username)
-        PGDATABASE=postgres
-        PGPASSWORD=$(pg_password)
-        PGPORT=5432
-        HOST_URL=http://$(stg_LB_ip):8080
-        COOKIE_ENCRYPT_PWD=superAwesomePasswordStringThatIsAtLeast32CharactersLong!
-        NODE_ENV=development
-        # Okta configuration
-        OKTA_ORG_URL=$(okta_url)
-        OKTA_CLIENT_ID=$(okta_client_id)
-        OKTA_CLIENT_SECRET=$(okta_client_secret)
-        "@
-      displayName: add .env file
 
     - task: Docker@2
       displayName: Build an image
@@ -73,8 +52,29 @@ stages:
       runOnce:
         deploy:
           steps:
-          - script: git clone https://github.com/UrielOfir/dockerAnsible.git
+          - bash: git clone https://github.com/UrielOfir/dockerAnsible.git
             displayName: clone ansible repo
+          
+          - bash: |
+              echo "
+              # Host configuration
+              PORT=8080
+              HOST=0.0.0.0
+              # Postgres configuration
+              PGHOST=$(stg_pghost)
+              PGUSERNAME=$(pg_username)
+              PGDATABASE=postgres
+              PGPASSWORD=$(pg_password)
+              PGPORT=5432
+              HOST_URL=http://$(stg_LB_ip):8080
+              COOKIE_ENCRYPT_PWD=superAwesomePasswordStringThatIsAtLeast32CharactersLong!
+              NODE_ENV=development
+              # Okta configuration
+              OKTA_ORG_URL=$(okta_url)
+              OKTA_CLIENT_ID=$(okta_client_id)
+              OKTA_CLIENT_SECRET=$(okta_client_secret)
+              " > .env
+            displayName: add .env file
 
 
 

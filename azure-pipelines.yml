@@ -62,10 +62,10 @@ stages:
           #     fi
           #   displayName: install ansible if needed
 
-          # - script: |
-          #     rm -rf dockerAnsible
-          #     git clone https://github.com/UrielOfir/dockerAnsible.git
-          #   displayName: clone ansible repo
+          - script: |
+              rm -rf dockerAnsible
+              git clone https://github.com/UrielOfir/dockerAnsible.git
+            displayName: clone ansible repo
           
           # - script: cd $(Build.SourcesDirectory)/dockerAnsible ; echo 10.0.1.4 host=\"10.0.1.4\" > inventory
           #   displayName: add inventory

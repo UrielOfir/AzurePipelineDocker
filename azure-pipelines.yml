@@ -12,33 +12,33 @@ variables:
 stages:
 
 # Continuous Integration Process
-- stage: CI
-  jobs:
-  - job: BuildAndPushDocker
-    workspace: 
-      clean: all
-    steps:
-    - powershell: |
-       if ( docker images urielofir/weight-tracker -q )
-        {
-         docker rmi $(docker images urielofir/weight-tracker -q)
-        }
-      displayName: remove previous docker images
+# - stage: CI
+#   jobs:
+#   - job: BuildAndPushDocker
+#     workspace: 
+#       clean: all
+#     steps:
+#     - powershell: |
+#        if ( docker images urielofir/weight-tracker -q )
+#         {
+#          docker rmi $(docker images urielofir/weight-tracker -q)
+#         }
+#       displayName: remove previous docker images
 
-    - task: Docker@2
-      displayName: Build an image
-      inputs:
-        command: build
-        Dockerfile: Dockerfile
-        repository: urielofir/weight-tracker
+#     - task: Docker@2
+#       displayName: Build an image
+#       inputs:
+#         command: build
+#         Dockerfile: Dockerfile
+#         repository: urielofir/weight-tracker
     
-    - task: Docker@2
-      condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/master'))
-      displayName: Push the image to a repository
-      inputs:
-        command: push
-        repository: urielofir/weight-tracker
-        tag: latest
+#     - task: Docker@2
+#       condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/master'))
+#       displayName: Push the image to a repository
+#       inputs:
+#         command: push
+#         repository: urielofir/weight-tracker
+#         tag: latest
 
 # Continuous Deployment Process for Staging Environment
 - stage: DeployToStaging
@@ -52,27 +52,27 @@ stages:
       runOnce:
         deploy:
           steps:
-          - script: |
-              if ! command -v ansible
-              then  
-                sudo apt update;
-                sudo apt install software-properties-common --yes;
-                sudo add-apt-repository --yes --update ppa:ansible/ansible;
-                sudo apt install ansible --yes;
-              fi
-            displayName: install ansible if needed
+          # - script: |
+          #     if ! command -v ansible
+          #     then  
+          #       sudo apt update;
+          #       sudo apt install software-properties-common --yes;
+          #       sudo add-apt-repository --yes --update ppa:ansible/ansible;
+          #       sudo apt install ansible --yes;
+          #     fi
+          #   displayName: install ansible if needed
 
-          - script: |
-              rm -rf dockerAnsible
-              git clone https://github.com/UrielOfir/dockerAnsible.git
-            displayName: clone ansible repo
+          # - script: |
+          #     rm -rf dockerAnsible
+          #     git clone https://github.com/UrielOfir/dockerAnsible.git
+          #   displayName: clone ansible repo
           
-          - script: cd $(Build.SourcesDirectory)/dockerAnsible ; echo 10.0.1.4 host=\"10.0.1.4\" > inventory
-            displayName: add inventory
+          # - script: cd $(Build.SourcesDirectory)/dockerAnsible ; echo 10.0.1.4 host=\"10.0.1.4\" > inventory
+          #   displayName: add inventory
           
           - script: |
               export ANSIBLE_HOST_KEY_CHECKING=False;
-              cd $(Build.SourcesDirectory); ansible-playbook -i inventory weightTrackerPlayBook.yaml
+              cd $(Build.SourcesDirectory)/dockerAnsible; ansible-playbook -i inventory weightTrackerPlayBook.yaml
             displayName: run ansible
 
           - script: |

@@ -48,6 +48,7 @@ stages:
         repository: "docker pipeline"
         command: build
         Dockerfile: Dockerfile
+        tags: WeightTracker:latest
 
 # # Continuous Deployment Process for Staging Environment
 # - stage: DeployToStaging

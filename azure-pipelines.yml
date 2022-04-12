@@ -44,15 +44,15 @@ stages:
       runOnce:
         deploy:
           steps:
-          # - script: |
-          #     if ! command -v ansible
-          #     then  
-          #       sudo apt update;
-          #       sudo apt install software-properties-common --yes;
-          #       sudo add-apt-repository --yes --update ppa:ansible/ansible;
-          #       sudo apt install ansible --yes;
-          #     fi
-          #   displayName: install ansible if needed
+          - script: |
+              if ! command -v ansible
+              then  
+                sudo apt update;
+                sudo apt install software-properties-common --yes;
+                sudo add-apt-repository --yes --update ppa:ansible/ansible;
+                sudo apt install ansible --yes;
+              fi
+            displayName: install ansible if needed
 
           - script: |
               rm -rf dockerAnsible
@@ -73,7 +73,7 @@ stages:
 
           - script: |
               export ANSIBLE_HOST_KEY_CHECKING=False;
-              cd $(Build.SourcesDirectory)/dockerAnsible; ansible-playbook -vvv -i inventory weightTrackerPlayBook.yaml
+              cd $(Build.SourcesDirectory)/dockerAnsible; ansible-playbook -i inventory weightTrackerPlayBook.yaml
             displayName: run ansible
 
           - script: |

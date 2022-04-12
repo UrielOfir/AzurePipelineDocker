@@ -18,8 +18,8 @@ stages:
     workspace: 
       clean: all
     steps:
-    # - script: docker rmi "docker pipeline"
-    #   displayName: "remove previous docker images"
+    - powershell: docker rmi $(docker images urielofir/weight-tracker -q)
+      displayName: remove previous docker images
     
     - powershell: |
         Set-Content -Path .\.env  -value @"

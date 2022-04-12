@@ -25,13 +25,8 @@ stages:
         }
       displayName: remove previous docker images
 
-    - task: Docker@2
+    - script: docker build -t urielofir/weight-tracker:latest .
       displayName: Build an image
-      inputs:
-        command: build
-        Dockerfile: Dockerfile
-        repository: urielofir/weight-tracker
-        tag: latest
     
     - script: docker push urielofir/weight-tracker:latest
       condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/master'))

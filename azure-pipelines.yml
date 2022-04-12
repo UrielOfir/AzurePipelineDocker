@@ -67,8 +67,8 @@ stages:
               git clone https://github.com/UrielOfir/dockerAnsible.git
             displayName: clone ansible repo
           
-          # - script: cd $(Build.SourcesDirectory)/dockerAnsible ; echo 10.0.1.4 host=\"10.0.1.4\" > inventory
-          #   displayName: add inventory
+          - script: cd $(Build.SourcesDirectory)/dockerAnsible ; echo 10.0.1.4 host=\"10.0.1.4\" > inventory
+            displayName: add inventory
           
           - script: |
               export ANSIBLE_HOST_KEY_CHECKING=False;

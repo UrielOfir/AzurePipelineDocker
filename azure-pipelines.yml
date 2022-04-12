@@ -31,6 +31,7 @@ stages:
         command: build
         Dockerfile: Dockerfile
         repository: urielofir/weight-tracker
+        tag: latest
     
     - script: docker push urielofir/weight-tracker:latest
       condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/master'))

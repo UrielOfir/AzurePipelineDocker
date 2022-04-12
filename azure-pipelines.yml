@@ -68,7 +68,7 @@ stages:
             displayName: clone ansible repo
           
           - script: cd $(Build.SourcesDirectory)/dockerAnsible ; echo 10.0.1.4 host=\"10.0.1.4\" > inventory
-         0   displayName: add inventory
+            displayName: add inventory
           
           - script: |
              cd $(Build.SourcesDirectory)/dockerAnsible ;

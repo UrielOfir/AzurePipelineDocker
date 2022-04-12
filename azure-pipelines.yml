@@ -50,6 +50,7 @@ stages:
         repository: urielofir/weight-tracker
     
     - task: Docker@2
+      condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/master'))
       displayName: Push the image to a repository
       inputs:
         command: push

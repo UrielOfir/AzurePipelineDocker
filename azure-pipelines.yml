@@ -68,8 +68,17 @@ stages:
             displayName: clone ansible repo
           
           - script: cd $(Build.SourcesDirectory)/dockerAnsible ; echo 10.0.1.4 host=\"10.0.1.4\" > inventory
-            displayName: add inventory
+         0   displayName: add inventory
           
+          - script: |
+             cd $(Build.SourcesDirectory)/dockerAnsible ;
+              echo "
+              ansible_port: \"22\"
+              ansible_user: \"$(ansible_user)\" 
+              ansible_ssh_pass: \"$(ansible_ssh_pass)\"
+              "> vars
+            displayName: add vars file
+
           - script: |
               export ANSIBLE_HOST_KEY_CHECKING=False;
               cd $(Build.SourcesDirectory)/dockerAnsible; ansible-playbook -i inventory weightTrackerPlayBook.yaml

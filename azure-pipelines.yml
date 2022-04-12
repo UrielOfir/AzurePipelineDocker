@@ -18,7 +18,11 @@ stages:
     workspace: 
       clean: all
     steps:
-    - powershell: docker rmi $(docker images urielofir/weight-tracker -q)
+    - powershell: |
+       if ( docker images urielofir/weight-tracker -q )
+      {
+         docker rmi $(docker images urielofir/weight-tracker -q)
+      }
       displayName: remove previous docker images
     
     - powershell: |
@@ -57,21 +61,22 @@ stages:
         repository: urielofir/weight-tracker
         tag: latest
 
-# # Continuous Deployment Process for Staging Environment
-# - stage: DeployToStaging
-#   condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/master'))
-#   jobs:
-#   - deployment: staging
-#     displayName: Deploy to Staging
-#     environment:
-#       name: <<YOUR ENVIRONMENT NAME>>
-#       resourceType: VirtualMachine
-#     strategy:
-#       runOnce:
-#         deploy:
-#           steps:
-#           - <<YOUR TASKS>>
-          
+# Continuous Deployment Process for Staging Environment
+- stage: DeployToStaging
+  condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/master'))
+  jobs:
+  - deployment: staging
+    displayName: Deploy to Staging
+    environment:
+      name: staging.stg-ansibleVM
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - shell: echo "hello world"
+
+
+
 # # Continuous Delivery Process for Production Environment
 # - stage: DeployToProduction
   # condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/master'))

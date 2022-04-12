@@ -20,9 +20,9 @@ stages:
     steps:
     - powershell: |
        if ( docker images urielofir/weight-tracker -q )
-      {
+        {
          docker rmi $(docker images urielofir/weight-tracker -q)
-      }
+        }
       displayName: remove previous docker images
     
     - powershell: |

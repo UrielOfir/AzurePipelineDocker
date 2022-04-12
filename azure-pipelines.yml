@@ -11,34 +11,34 @@ variables:
 
 stages:
 
-# Continuous Integration Process
-# - stage: CI
-#   jobs:
-#   - job: BuildAndPushDocker
-#     workspace: 
-#       clean: all
-#     steps:
-#     - powershell: |
-#        if ( docker images urielofir/weight-tracker -q )
-#         {
-#          docker rmi $(docker images urielofir/weight-tracker -q)
-#         }
-#       displayName: remove previous docker images
+Continuous Integration Process
+- stage: CI
+  jobs:
+  - job: BuildAndPushDocker
+    workspace: 
+      clean: all
+    steps:
+    - powershell: |
+       if ( docker images urielofir/weight-tracker -q )
+        {
+         docker rmi $(docker images urielofir/weight-tracker -q)
+        }
+      displayName: remove previous docker images
 
-#     - task: Docker@2
-#       displayName: Build an image
-#       inputs:
-#         command: build
-#         Dockerfile: Dockerfile
-#         repository: urielofir/weight-tracker
+    - task: Docker@2
+      displayName: Build an image
+      inputs:
+        command: build
+        Dockerfile: Dockerfile
+        repository: urielofir/weight-tracker
     
-#     - task: Docker@2
-#       condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/master'))
-#       displayName: Push the image to a repository
-#       inputs:
-#         command: push
-#         repository: urielofir/weight-tracker
-#         tag: latest
+    - task: Docker@2
+      condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/master'))
+      displayName: Push the image to a repository
+      inputs:
+        command: push
+        repository: urielofir/weight-tracker
+        tag: latest
 
 # Continuous Deployment Process for Staging Environment
 - stage: DeployToStaging

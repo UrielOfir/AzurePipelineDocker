@@ -48,7 +48,7 @@ stages:
         repository: "docker pipeline"
         command: build
         Dockerfile: Dockerfile
-        tags: WeightTracker:latest
+        repository: urielofir/weight-tracker
 
 # # Continuous Deployment Process for Staging Environment
 # - stage: DeployToStaging

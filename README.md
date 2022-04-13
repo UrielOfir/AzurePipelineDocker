@@ -7,6 +7,8 @@ https://github.com/UrielOfir/Terraform
 2. Then you need to [add an azure devops agent to the deafult agent pool](https://docs.microsoft.com/en-us/azure/devops/pipelines/agents/v2-linux?view=azure-devops#azure-pipelines).
 It must be linux agent.
 
+You also must have an Azure container registry! 
+
 3. Add to your pipline two enviroments: `staging` and `deployment`.  
 In each enviroment add an agent on the ansible machine of your azure cloud enviroment.
 

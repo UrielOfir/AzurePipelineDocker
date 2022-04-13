@@ -59,8 +59,7 @@ stages:
               ansible_username: $(ansible_username) 
               ansible_ssh_pass: $(ansible_ssh_pass)
               hosts:
-              - 10.0.1.4
-              - 10.0.1.5            
+              - 10.0.1.4            
 
 
 

@@ -29,7 +29,7 @@ steps:
   displayName: clone ansible repo
 
 - ${{ each host in parameters.hosts }}:
-  - script: echo ${{host}} host=\"${{host}}\" >> ~/ansible/inventory
+  - script: echo ${{host}} host=\"${{host}}\" >> inventory
     displayName: add inventory
 
 - script: |

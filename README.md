@@ -18,8 +18,8 @@ In each enviroment add an agent on the ansible machine of your azure cloud envir
 Add this variables:
     
     ```
-    `servers_ssh_pass` (password for the VMs that runs the app)
-    `servers_username`
+    `ansible_ssh_pass` (password for the VMs that runs the app)
+    `ansible_username`
     `stg_LB_ip` (LB= load balancer)
     `prd_LB_ip`
     `okta_client_id`

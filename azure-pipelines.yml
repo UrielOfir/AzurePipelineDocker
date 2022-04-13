@@ -11,31 +11,31 @@ variables:
 
 stages:
 
-# Continuous Integration Process
-  # - stage: CI
-  #   jobs:
-  #   - job: BuildAndPushDocker
-  #     workspace: 
-  #       clean: all
-  #     steps:
-  #     - powershell: |
-  #        if ( docker images $(registry_url)/weight-tracker -q )
-  #         {
-  #          docker rmi $(docker images  $(registry_url)/weight-tracker -q)
-  #         }
-  #       displayName: remove previous docker images
+Continuous Integration Process
+- stage: CI
+  jobs:
+  - job: BuildAndPushDocker
+    workspace: 
+      clean: all
+    steps:
+    - powershell: |
+        if ( docker images $(registry_url)/weight-tracker -q )
+        {
+          docker rmi $(docker images  $(registry_url)/weight-tracker -q)
+        }
+      displayName: remove previous docker images
 
-  #     - script: docker build -t $(registry_url)/weight-tracker:latest .
-  #       displayName: Build an image
+    - script: docker build -t $(registry_url)/weight-tracker:latest .
+      displayName: Build an image
 
-  #     - script: docker login -u $(registry_username) -p $(registry_password) $(registry_url)
-  #       displayName: connect to azure container registry
-      
-  #     - script: docker push urielofir.azurecr.io/weight-tracker:latest
-  #       condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/master'))
-  #       displayName: Push the image to ther docker hub repository
+    - script: docker login -u $(registry_username) -p $(registry_password) $(registry_url)
+      displayName: connect to azure container registry
+    
+    - script: docker push urielofir.azurecr.io/weight-tracker:latest
+      condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/master'))
+      displayName: Push the image to ther docker hub repository
 
-# Continuous Deployment Process for Staging Environment
+Continuous Deployment Process for Staging Environment
 - stage: DeployToStaging
   condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/master'))
   jobs:
@@ -47,15 +47,15 @@ stages:
       runOnce:
         deploy:
           steps:
-          # - script: |
-          #     if ! command -v ansible
-          #     then  
-          #       sudo apt update;
-          #       sudo apt install software-properties-common --yes;
-          #       sudo add-apt-repository --yes --update ppa:ansible/ansible;
-          #       sudo apt install ansible --yes;
-          #     fi
-          #   displayName: install ansible if needed
+          - script: |
+              if ! command -v ansible
+              then  
+                sudo apt update;
+                sudo apt install software-properties-common --yes;
+                sudo add-apt-repository --yes --update ppa:ansible/ansible;
+                sudo apt install ansible --yes;
+              fi
+            displayName: install ansible if needed
 
           - script: |
               rm -rf dockerAnsible
@@ -72,7 +72,7 @@ stages:
               ansible_port: \"22\"
               ansible_user: \"$(ansible_user)\" 
               ansible_ssh_pass: \"$(ansible_ssh_pass)\"
-              pghost: \"\"
+              pghost: \"$(stg_pghost)\"
               pg_username: \"$(pg_username)\"
               pg_password: \"$(pg_password)\"
               LB_ip: \"$(LB_ip)\"
@@ -89,27 +89,6 @@ stages:
               export ANSIBLE_HOST_KEY_CHECKING=False;
               cd $(Build.SourcesDirectory)/dockerAnsible; ansible-playbook -vvv -i inventory weightTrackerPlayBook.yaml
             displayName: run ansible
-
-          - script: |
-              echo "
-              # Host configuration
-              PORT=8080
-              HOST=0.0.0.0
-              # Postgres configuration
-              PGHOST=$(stg_pghost)
-              PGUSERNAME=$(pg_username)
-              PGDATABASE=postgres
-              PGPASSWORD=$(pg_password)
-              PGPORT=5432
-              HOST_URL=http://$(stg_LB_ip):8080
-              COOKIE_ENCRYPT_PWD=superAwesomePasswordStringThatIsAtLeast32CharactersLong!
-              NODE_ENV=development
-              # Okta configuration
-              OKTA_ORG_URL=$(okta_url)
-              OKTA_CLIENT_ID=$(okta_client_id)
-              OKTA_CLIENT_SECRET=$(okta_client_secret)
-              " > .env
-            displayName: add .env file
 
 
 

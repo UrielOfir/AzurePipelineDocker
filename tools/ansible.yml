@@ -14,45 +14,45 @@ parameters:
 steps:
 
 - script: |
-              if ! command -v ansible
-              then  
-                sudo apt update;
-                sudo apt install software-properties-common --yes;
-                sudo add-apt-repository --yes --update ppa:ansible/ansible;
-                sudo apt install ansible --yes;
-              fi
-            displayName: install ansible if needed
+    if ! command -v ansible
+    then  
+      sudo apt update;
+      sudo apt install software-properties-common --yes;
+      sudo add-apt-repository --yes --update ppa:ansible/ansible;
+      sudo apt install ansible --yes;
+    fi
+  displayName: install ansible if needed
 
-          - script: |
-              rm -rf dockerAnsible
-              git clone https://github.com/UrielOfir/dockerAnsible.git
-            displayName: clone ansible repo
-          
-          - ${{ each host in parameters.hosts }}:
-            - script: echo ${{host}} host=\"${{host}}\" >> ~/ansible/inventory
-              displayName: add inventory
-          
-          - script: |
-             cd $(Build.SourcesDirectory)/dockerAnsible ;
-              echo "
-              ansible_connection: \"ssh\"
-              ansible_port: \"22\"
-              ansible_user: \"$(ansible_user)\" 
-              ansible_ssh_pass: \"$(ansible_ssh_pass)\"
-              pghost: \"$(stg_pghost)\"
-              pg_username: \"$(pg_username)\"
-              pg_password: \"$(pg_password)\"
-              LB_ip: \"$(LB_ip)\"
-              okta_url: \"$(okta_url)\"
-              okta_client_id: \"$(okta_client_id)\"
-              okta_client_secret: \"$(okta_client_secret)\"
-              registry_username: \"$(registry_username)\"
-              registry_password: \"$(registry_password)\" 
-              registry_url: \"$(registry_url)\"
-              "> vars
-            displayName: add vars file
+- script: |
+    rm -rf dockerAnsible
+    git clone https://github.com/UrielOfir/dockerAnsible.git
+  displayName: clone ansible repo
 
-          - script: |
-              export ANSIBLE_HOST_KEY_CHECKING=False;
-              cd $(Build.SourcesDirectory)/dockerAnsible; ansible-playbook -vvv -i inventory weightTrackerPlayBook.yaml
-            displayName: run ansible
+- ${{ each host in parameters.hosts }}:
+  - script: echo ${{host}} host=\"${{host}}\" >> ~/ansible/inventory
+    displayName: add inventory
+
+- script: |
+    cd $(Build.SourcesDirectory)/dockerAnsible ;
+    echo "
+    ansible_connection: \"ssh\"
+    ansible_port: \"22\"
+    ansible_user: \"$(ansible_user)\" 
+    ansible_ssh_pass: \"$(ansible_ssh_pass)\"
+    pghost: \"$(stg_pghost)\"
+    pg_username: \"$(pg_username)\"
+    pg_password: \"$(pg_password)\"
+    LB_ip: \"$(LB_ip)\"
+    okta_url: \"$(okta_url)\"
+    okta_client_id: \"$(okta_client_id)\"
+    okta_client_secret: \"$(okta_client_secret)\"
+    registry_username: \"$(registry_username)\"
+    registry_password: \"$(registry_password)\" 
+    registry_url: \"$(registry_url)\"
+    "> vars
+  displayName: add vars file
+
+- script: |
+    export ANSIBLE_HOST_KEY_CHECKING=False;
+    cd $(Build.SourcesDirectory)/dockerAnsible; ansible-playbook -vvv -i inventory weightTrackerPlayBook.yaml
+  displayName: run ansible

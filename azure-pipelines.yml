@@ -79,15 +79,15 @@ stages:
               okta_url: \"$(okta_url)\"
               okta_client_id: \"$(okta_client_id)\"
               okta_client_secret: \"$(okta_client_secret)\"
-              docker_username: \"$(docker_username)\"
-              docker_password: \"$(docker_password)\" 
-              docker_registry: \"$(docker_registry)\"
+              registry_username: \"$(registry_username)\"
+              registry_password: \"$(registry_password)\" 
+              registry_registry: \"$(registry_registry)\"
               "> vars
             displayName: add vars file
 
           - script: |
               export ANSIBLE_HOST_KEY_CHECKING=False;
-              cd $(Build.SourcesDirectory)/dockerAnsible; ansible-playbook -i inventory weightTrackerPlayBook.yaml
+              cd $(Build.SourcesDirectory)/dockerAnsible; ansible-playbook -vvv -i inventory weightTrackerPlayBook.yaml
             displayName: run ansible
 
           - script: |

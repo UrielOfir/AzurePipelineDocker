@@ -29,6 +29,9 @@ Add this variables:
     `pg_username`
     `stg_pghost` (dns name of the postgresql server)
     `prd_pghost` (dns name of the postgresql server)
+    `registry_url` (url of the container registry)
+    `registry_username`
+    `registry_password`
     ```
 The code works for staging enviroment with two servers,
 where the servers IPs are: 10.0.1.4 and 10.0.1.5.  

@@ -81,7 +81,7 @@ stages:
               okta_client_secret: \"$(okta_client_secret)\"
               registry_username: \"$(registry_username)\"
               registry_password: \"$(registry_password)\" 
-              registry_registry: \"$(registry_registry)\"
+              registry_url: \"$(registry_url)\"
               "> vars
             displayName: add vars file
 

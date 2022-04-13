@@ -1,6 +1,9 @@
 
 # Node.js Weight Tracker
 ## How to run this Azure Devops repository?
+This repository builds a docker images and run it on staging and production environments by this ansible code:
+https://github.com/UrielOfir/dockerAnsible.
+
 1. You need to build the enviroment with this Terraform module-
 https://github.com/UrielOfir/Terraform
 

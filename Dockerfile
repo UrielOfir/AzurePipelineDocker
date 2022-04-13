@@ -12,4 +12,3 @@ EXPOSE 8080
 RUN npm run initdb
 
 ENTRYPOINT npm run dev
-

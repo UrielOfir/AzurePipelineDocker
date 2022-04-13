@@ -75,7 +75,7 @@ stages:
               pghost: \"$(stg_pghost)\"
               pg_username: \"$(pg_username)\"
               pg_password: \"$(pg_password)\"
-              LB_ip: \"$(LB_ip)\"
+              LB_ip: \"$(stg_LB_ip)\"
               okta_url: \"$(okta_url)\"
               okta_client_id: \"$(okta_client_id)\"
               okta_client_secret: \"$(okta_client_secret)\"

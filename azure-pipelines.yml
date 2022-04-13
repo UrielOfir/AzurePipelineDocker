@@ -19,16 +19,16 @@ stages:
       clean: all
     steps:
     - powershell: |
-       if ( docker images urielofir/weight-tracker -q )
+       if ( docker images weight-tracker -q )
         {
-         docker rmi $(docker images urielofir/weight-tracker -q)
+         docker rmi $(docker images weight-tracker -q)
         }
       displayName: remove previous docker images
 
-    - script: docker build -t urielofir/weight-tracker:latest .
+    - script: docker build -t weight-tracker:latest .
       displayName: Build an image
 
-    - script: docker login -u $(registry_username) --password-stdin $(registry_password) $(registry_url)
+    - script: docker login -u $(registry_username) -p $(registry_password) $(registry_url)
       displayName: connect to azure container registry
     
     - script: docker push urielofir.azurecr.io:weight-tracker:latest

@@ -28,10 +28,10 @@ stages:
     - script: docker build -t urielofir/weight-tracker:latest .
       displayName: Build an image
 
-    - script: docker login -u $(registry_username) -p $(registry_password) $(registry_url)
+    - script: docker login -u $(registry_username) --password-stdin $(registry_password) $(registry_url)
       displayName: connect to azure container registry
     
-    - script: docker push urielofir/weight-tracker:latest
+    - script: docker push urielofir.azurecr.io:weight-tracker:latest
       condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/master'))
       displayName: Push the image to ther docker hub repository
 

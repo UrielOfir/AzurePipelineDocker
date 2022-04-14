@@ -18,7 +18,7 @@ stages:
     workspace: 
       clean: all
     steps:
-    powershell: Write-Host $(stg_LB_ip) $(prd_LB_ip)
+      - powershell: Write-Host $(stg_LB_ip) $(prd_LB_ip)
 #     - powershell: |
 #         if ( docker images $(registry_url)/weight-tracker -q )
 #         {

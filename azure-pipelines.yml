@@ -58,6 +58,9 @@ stages:
               okta_client_secret: $(okta_client_secret)
               ansible_username: $(ansible_username) 
               ansible_ssh_pass: $(ansible_ssh_pass)
+              registry_username: $(registry_username)
+              registry_password: $(registry_password)
+              registry_url: $(registry_url)
               hosts:
               - 10.0.1.4            
               - 10.0.1.5            
@@ -88,6 +91,9 @@ stages:
               okta_client_secret: $(okta_client_secret)
               ansible_username: $(ansible_username) 
               ansible_ssh_pass: $(ansible_ssh_pass)
+              registry_username: $(registry_username)
+              registry_password: $(registry_password)
+              registry_url: $(registry_url)
               hosts:
               - 10.0.1.4            
               - 10.0.1.5      

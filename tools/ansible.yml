@@ -37,7 +37,7 @@ steps:
     echo "
     ansible_connection: \"ssh\"
     ansible_port: \"22\"
-    ansible_user: \"$(parameters.ansible_user)\" 
+    ansible_user: \"$(parameters.ansible_username)\" 
     ansible_ssh_pass: \"$(parameters.ansible_ssh_pass)\"
     pghost: \"$(parameters.pghost)\"
     pg_username: \"$(parameters.pg_username)\"

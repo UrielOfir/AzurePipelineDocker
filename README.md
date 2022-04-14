@@ -39,11 +39,11 @@ Add this variables:
 The code works for staging enviroment with two servers,
 where the servers IPs are: 10.0.1.4 and 10.0.1.5.  
 In the proudction enviroment there are three servers with IPs: 10.0.1.4, 10.0.1.5, 10.0.1.6.  
-To change the hosts IPs you need to change the `host` in the file `azure-pipelines.yml` lines 38 and 62.
+To change the hosts IPs you need to change the `hosts` in the file `azure-pipelines.yml` at `template: tools/ansible.yml`.
 ***
 
 ## Use docker compose on your local machine
-To run this app with your local machine you need to add `.env` file to the root of the project.
+To run this app with your local machine you need to add `.env` file to the root of the project. (you can see the instructions for `.env` file [here](https://developer.okta.com/blog/2020/06/01/node-postgres-weight-tracker)).  
 Then you can run the command `docker-compose up`, and the app will be running on your local machine at port `127.0.0.1:40000`.
 
 

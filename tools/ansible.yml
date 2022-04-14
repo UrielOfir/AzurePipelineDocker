@@ -8,10 +8,10 @@ parameters:
 - name: okta_client_secret
 - name: ansible_username
 - name: ansible_ssh_pass
-- name: hosts
 - name: registry_username
 - name: registry_password
 - name: registry_url
+- name: hosts
   type: object
   
 

@@ -14,6 +14,7 @@ parameters:
 steps:
 
 - script: |
+    echo $(LB_ip)
     if ! command -v ansible
     then  
       sudo apt update;
@@ -54,5 +55,5 @@ steps:
 
 - script: |
     export ANSIBLE_HOST_KEY_CHECKING=False;
-    cd $(Build.SourcesDirectory)/dockerAnsible; ansible-playbook -vvv -i inventory weightTrackerPlayBook.yaml
+    cd $(Build.SourcesDirectory)/dockerAnsible; ansible-playbook -i inventory weightTrackerPlayBook.yaml
   displayName: run ansible

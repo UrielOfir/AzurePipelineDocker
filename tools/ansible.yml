@@ -2,7 +2,7 @@ parameters:
 - name: pghost
 - name: pg_username
 - name: pg_password
-- name: LB_ip
+- name: lb_ip
 - name: okta_url
 - name: okta_client_id
 - name: okta_client_secret
@@ -14,7 +14,7 @@ parameters:
 steps:
 
 - script: |
-    echo $(LB_ip)
+    echo $(lb_ip)
     if ! command -v ansible
     then  
       sudo apt update;
@@ -43,7 +43,7 @@ steps:
     pghost: \"$(stg_pghost)\"
     pg_username: \"$(pg_username)\"
     pg_password: \"$(pg_password)\"
-    LB_ip: \"$(LB_ip)\"
+    LB_ip: \"$(lb_ip)\"
     okta_url: \"$(okta_url)\"
     okta_client_id: \"$(okta_client_id)\"
     okta_client_secret: \"$(okta_client_secret)\"
